@@ -18,14 +18,16 @@ size_t length;		// length of memory allocation in mmap
 
 void init_graphics()
 {
+	struct fb_fix_screeninfo fix_info;							// Lets us get info about our video card's memory
+	struct fb_var_screeninfo var_info;							// Lets us get info about our video card's display properties
+	struct termios t;
+
 	file_descriptor = open("/dev/fb0", O_RDWR);					// Open framebuffer
 	if(file_descriptor == -1) {									// Check if frambuffer was opened properly
 		perror("/dev/fb0 not opening properly.");					// If not, say so
 	}
 	else perror("shit worked yo");									// Else we GOOD BOIIIIIII
 
-	struct fb_fix_screeninfo fix_info;							// Lets us get info about our video card's memory
-	struct fb_var_screeninfo var_info;							// Lets us get info about our video card's display properties
 	ioctl(file_descriptor, FBIOGET_FSCREENINFO, &fix_info);
 	ioctl(file_descriptor, FBIOGET_VSCREENINFO, &var_info);	
 	 depth = fix_info.line_length;
@@ -33,6 +35,11 @@ void init_graphics()
  	length = depth * vres;
 
  	file_address = mmap(0,length,PROT_WRITE,MAP_SHARED,file_descriptor,0); // Map file to memory and get that #hot #wet #address #space #babYYYYYYYY
+ 	//exit_graphics() if memory isn't allocated properly i.e. file_address == (void*) -1
+
+ 	ioctl(0,TCGETS,&termios);
+
+
 }
 
 void exit_graphics() {}

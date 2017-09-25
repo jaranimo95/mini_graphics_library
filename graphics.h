@@ -13,6 +13,7 @@
 #include <linux/fb.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
+#include <sys/termios>
 
 typedef unsigned short color_t;
 #define RGB(r,g,b) (r << 11 | g << 5 | b) // RGB color macro, with red being RGB(31,0,0)
