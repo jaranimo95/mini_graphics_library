@@ -9,11 +9,13 @@
 #ifndef HEADER_FILE
 #define HEADER_FILE
 
+#include <time.h>
 #include <fcntl.h>
+#include <termios.h>
 #include <linux/fb.h>
-#include <sys/ioctl.h>
 #include <sys/mman.h>
-#include <sys/termios>
+#include <sys/ioctl.h>
+#include <sys/select.h>
 
 typedef unsigned short color_t;
 #define RGB(r,g,b) (r << 11 | g << 5 | b) // RGB color macro, with red being RGB(31,0,0)
