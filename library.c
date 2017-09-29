@@ -43,33 +43,48 @@ void init_graphics()
  	t.c_lflag &= ~(ECHO | ICANON);		// Disable keypress
  	ioctl(0,TCSETS,&t);					// Set keypress to disabled
 
- 	//clear screen here
+ 	//clear_screen(img);
 }
 
 void exit_graphics() 
 {
 	t.c_lflag |= (ECHO | ICANON);	// Re-enable keypress
 	ioctl(0,TCSETS,&t);				// Set keypress to enabled
-	munmap(file_address, length);
+	munmap(file_address, length);	// Unmap memory allocated to framebuffer
 	close(file_descriptor);			// Close framebuffer
 }
 
 char getkey() 
 {
-	struct timeval clock;	// We need a clock to check the time
+	struct timeval clock;	// We need a clock to check our elapsed time for select() syscall
 	fd_set key_status;		// Gives us status of key press
 	char input = 0;			// Set to "no key pressed" status
+	clock.tv_set = 0;		// Check immediately for key press status (0 seconds)
 
-
+	FD_ZERO(&key_status);										// Initialize file descriptor
+  	FD_SET(0, &key_status);										// Check stdin for input
+  	if(select(FD_SETSIZE, &key_status, NULL, NULL, &clock))		// If key pressed
+	  	read(0, &input, 1);											// Put "key pressed" status in input
+  	return input;												// Return input
 }
 
-void clear_screen(void *img) 
+void clear_screen(void* img) 
 {
-	print(1,"\033[2J",4);		// Clears terminal, thus, clearing the screen
+	//print(1,"\033[2J",4);		// Clears terminal, thus, clearing the screen
 }
 
-void sleep_ms(long ms) {}
-void* new_offscreen_buffer() {}
+void sleep_ms(long ms)
+{
+	struct timespec alarm;					// Make an alarm so we can wake ourselves up
+	alarm.tv_set = ms / 1000;				// Set for however many whole seconds (milliseconds / 1000)
+	alarm.tv_nsec = (ms % 1000) * 1000000;	// Then convert the leftover time to nanoseconds to be stored in tv_nsec
+  	nanosleep(&req, NULL);					// Sleep for whole seconds (tv_set) + leftover time in nanoseconds (tv_nsec)
+}
+
+void* new_offscreen_buffer()
+{
+
+}
 
 void blit(void *src) {}
 void draw_pixel(void *img, int x, int y, color_t color) {}
