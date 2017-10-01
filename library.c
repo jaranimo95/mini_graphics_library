@@ -1,6 +1,6 @@
 //
-//  main.c
-//  gLib
+//  library.c
+//  Project 1: Graphics Library
 //
 //  Created by Christian Jarani on 9/13/17.
 //  Copyright © 2017 majula. All rights reserved.
@@ -51,6 +51,7 @@ void exit_graphics()
 	ioctl(0,TCSETS,&t);				// Set keypress to enabled
 	munmap(fb_address, length);		// Unmap memory allocated to framebuffer
 	close(file_descriptor);			// Close framebuffer
+	write(1, "\033[2J", 4);			// Clear terminal
 }
 
 char getkey() 
@@ -110,7 +111,7 @@ void draw_pixel(void *img, int x, int y, color_t c)
 void draw_line(void *img, int x0, int y0, int x1, int y1, color_t c)
 {
 	int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
-  	int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1; 
+  	int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1;
   	int err = (dx>dy ? dx : -dy)/2, e2;
  
   	for(;;){

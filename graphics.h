@@ -1,10 +1,11 @@
 //
-//  driver.c
-//  gLib
+//  graphics.h
+//  Project 1: Graphics Library
 //
-//  Created by Christian Jarani on 9/15/17.
+//  Created by Christian Jarani on 9/13/17.
 //  Copyright © 2017 majula. All rights reserved.
 //
+//  https://stackoverflow.com/questions/4996777/paint-pixels-to-screen-via-linux-framebuffer
 
 #ifndef HEADER_FILE
 #define HEADER_FILE
