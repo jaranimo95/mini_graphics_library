@@ -11,6 +11,7 @@
 
 #include <time.h>
 #include <fcntl.h>
+#include <stdio.h>
 #include <termios.h>
 #include <linux/fb.h>
 #include <sys/mman.h>
