@@ -5,7 +5,7 @@
 //  Created by Christian Jarani on 9/13/17.
 //  Copyright © 2017 majula. All rights reserved.
 //
-//  https://stackoverflow.com/questions/4996777/paint-pixels-to-screen-via-linux-framebuffer
+//  keep pressing e to draw more lines
 
 #include "graphics.h"
 
